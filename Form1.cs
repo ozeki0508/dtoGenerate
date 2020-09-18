@@ -64,12 +64,23 @@ namespace DtoGenerate
                             for (int i = 0; i < this.dtoView.Rows.Count; i++)
                             {
                                 var strType = (string)this.dtoView.Rows[i].Cells[0].Value;
-                                var strPhygNm = (string)this.dtoView.Rows[i].Cells[1].Value;
-                                var strLgNm = (string)this.dtoView.Rows[i].Cells[2].Value;
+                                var strDec = (string)(this.dtoView.Rows[i].Cells[1].Value ?? "");
+                                var strPhygNm = (string)this.dtoView.Rows[i].Cells[2].Value;
+                                var strLgNm = (string)this.dtoView.Rows[i].Cells[3].Value;
 
                                 if (string.IsNullOrWhiteSpace(strType)) break;
 
-                                strType = strType == "NUMERIC" || strType == "DECIMAL" ? "int" : "string";
+                                // 値型のセット
+                                if (strType == "NUMERIC" || strType == "DECIMAL")
+                                {
+                                    var intDec = this.Get_intValue(strDec);
+                                    strType = intDec == 0 ? "int" : "double";
+                                }
+                                else
+                                {
+                                    strType = "string";
+                                }
+
                                 var item = new WriteItem()
                                 {
                                     TYPE = strType,
@@ -77,16 +88,34 @@ namespace DtoGenerate
                                     LOGIC_NM = strLgNm
                                 };
 
+                                // 生成
                                 writter.Write(sw, item);
                             }
                         }
                     }
                 }
             }
-            catch(Exception e)
+            catch(Exception ex)
             {
-                MessageBox.Show(e.Message, "エラー");
+                MessageBox.Show(ex.GetBaseException().ToString(), "例外", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        /// <summary>
+        /// int型変換
+        /// </summary>
+        /// <param name="strVal"></param>
+        /// <returns></returns>
+        private int Get_intValue(string strVal)
+        {
+            var intVal = 0;
+
+            if (strVal != null)
+            {
+                int.TryParse(strVal, out intVal);
+            }
+
+            return intVal;
         }
 
         /// <summary>
@@ -205,10 +234,23 @@ namespace DtoGenerate
     {
         public void Write(StreamWriter sw, WriteItem item)
         {
-            var returnVal = item.TYPE == "int" ? "0" : "\"\"";
+            var settingVal = "";
+            switch(item.TYPE)
+            {
+                case "int":
+                    settingVal = "0";
+                    break;
+                case "double":
+                    settingVal = "0d";
+                    break;
+                case "string":
+                    settingVal = "\"\"";
+                    break;
+            }
+
             var p_lower = item.PHYGIC_NM.ToLower();
 
-            sw.WriteLine(string.Format("private {0} m_{1} = {2};", item.TYPE, p_lower, returnVal));
+            sw.WriteLine(string.Format("private {0} m_{1} = {2};", item.TYPE, p_lower, settingVal));
             sw.WriteLine("/// <summary>");
             sw.WriteLine("/// " + item.LOGIC_NM);
             sw.WriteLine("/// <summary>");
@@ -218,7 +260,7 @@ namespace DtoGenerate
             sw.WriteLine("  set");
             sw.WriteLine("  {");
             sw.WriteLine("      this.m_" + p_lower + " = value;");
-            sw.WriteLine("      this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(this." + item.PHYGIC_NM + ")));");
+            sw.WriteLine("      this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this." + item.PHYGIC_NM + ")));");
             sw.WriteLine("  }");
             sw.WriteLine("}\r\n");
         }

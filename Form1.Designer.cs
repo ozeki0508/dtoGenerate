@@ -30,16 +30,17 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.dtoView = new System.Windows.Forms.DataGridView();
+            this.button2 = new System.Windows.Forms.Button();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.小数 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dtoView)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(42, 30);
+            this.button1.Location = new System.Drawing.Point(22, 30);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(225, 63);
             this.button1.TabIndex = 0;
@@ -50,17 +51,31 @@
             // dtoView
             // 
             this.dtoView.AllowUserToDeleteRows = false;
+            this.dtoView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dtoView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtoView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
+            this.小数,
             this.Column2,
             this.Column3});
-            this.dtoView.Location = new System.Drawing.Point(42, 112);
+            this.dtoView.Location = new System.Drawing.Point(22, 112);
             this.dtoView.Name = "dtoView";
             this.dtoView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dtoView.Size = new System.Drawing.Size(1300, 639);
+            this.dtoView.Size = new System.Drawing.Size(1240, 570);
             this.dtoView.TabIndex = 1;
             this.dtoView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(302, 30);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(225, 63);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "Property作成";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Column1
             // 
@@ -69,35 +84,29 @@
             this.Column1.Name = "Column1";
             this.Column1.Width = 150;
             // 
+            // 小数
+            // 
+            this.小数.HeaderText = "小数";
+            this.小数.Name = "小数";
+            this.小数.Width = 80;
+            // 
             // Column2
             // 
-            this.Column2.Frozen = true;
             this.Column2.HeaderText = "物理名";
             this.Column2.Name = "Column2";
             this.Column2.Width = 150;
             // 
             // Column3
             // 
-            this.Column3.Frozen = true;
             this.Column3.HeaderText = "論理名";
             this.Column3.Name = "Column3";
-            this.Column3.Width = 400;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(321, 30);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(225, 63);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Property作成";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.Column3.Width = 500;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1387, 789);
+            this.ClientSize = new System.Drawing.Size(1283, 700);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.dtoView);
             this.Controls.Add(this.button1);
@@ -112,10 +121,11 @@
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView dtoView;
+        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 小数;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.Button button2;
     }
 }
 
